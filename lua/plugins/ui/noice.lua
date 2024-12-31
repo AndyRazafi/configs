@@ -1,0 +1,91 @@
+return {
+	"folke/noice.nvim",
+	event = "VeryLazy",
+	dependencies = {
+		"MunifTanjim/nui.nvim",
+		"nvim-notify",
+	},
+	opts = {
+		cmdline = {
+			enabled = true, -- enables the Noice cmdline UI
+		},
+		messages = {
+			-- NOTE: If you enable messages, then the cmdline is enabled automatically.
+			-- This is a current Neovim limitation.
+			enabled = true, -- enables the Noice messages UI
+			view = "mini", -- default view for messages
+			view_error = "notify", -- view for errors
+			view_warn = "mini", -- view for warnings
+			view_history = "messages", -- view for :messages
+			view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+		},
+		popupmenu = {
+			enabled = true, -- enables the Noice popupmenu UI
+		},
+		notify = {
+			-- Noice can be used as `vim.notify` so you can route any notification like other messages
+			-- Notification messages have their level and other properties set.
+			-- event is always "notify" and kind can be any log level as a string
+			-- The default routes will forward notifications to nvim-notify
+			-- Benefit of using Noice for this is the routing and consistent history view
+			enabled = true,
+			view = "notify",
+		},
+		lsp = {
+			progress = {
+				enabled = false,
+				format = "lsp_progress",
+				format_done = "lsp_progress_done",
+				throttle = 1000 / 30, -- frequency to update lsp progress message
+				view = "mini",
+			},
+			hover = {
+				enabled = true,
+				silent = false, -- set to true to not show a message if hover is not available
+				view = nil, -- when nil, use defaults from documentation
+				opts = {}, -- merged with defaults from documentation
+			},
+			signature = {
+				enabled = true,
+				auto_open = {
+					enabled = true,
+					trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
+					luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
+					throttle = 50, -- Debounce lsp signature help request by 50ms
+				},
+				view = nil, -- when nil, use defaults from documentation
+				opts = {}, -- merged with defaults from documentation
+			},
+			message = {
+				-- Messages shown by lsp servers
+				enabled = true,
+				view = "notify",
+				opts = {},
+			},
+			-- defaults for hover and signature help
+			documentation = {
+				view = "hover",
+				opts = {
+					lang = "markdown",
+					replace = true,
+					render = "plain",
+					format = { "{message}" },
+					win_options = { concealcursor = "n", conceallevel = 3 },
+				},
+			},
+		},
+		health = {
+			checker = true, -- Disable if you don't want health checks to run
+		},
+		presets = {
+			-- you can enable a preset by setting it to true, or a table that will override the preset config
+			-- you can also add custom presets that you can enable/disable with enabled=true
+			bottom_search = false, -- use a classic bottom cmdline for search
+			command_palette = false, -- position the cmdline and popupmenu together
+			long_message_to_split = false, -- long messages will be sent to a split
+			inc_rename = false, -- enables an input dialog for inc-rename.nvim
+			lsp_doc_border = false, -- add a border to hover docs and signature help
+		},
+		throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
+	},
+}
