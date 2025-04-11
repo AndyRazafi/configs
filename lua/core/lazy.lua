@@ -16,6 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("core.options")
 require("core.keymaps")
+require("core.commands")
 
 -- Setup lazy.nvim
 require("lazy").setup({
@@ -23,14 +24,11 @@ require("lazy").setup({
 		{ import = "plugins.themes" },
 		{ import = "plugins.ui" },
 		{ import = "plugins.lsp" },
-		{ import = "plugins.lsp.extras" },
 		{ import = "plugins.editor" },
 		{ import = "plugins.code" },
 		{ import = "plugins.git" },
-		{ import = "plugins.linter" },
-		{ import = "plugins.lang" },
-		{ import = "plugins.term" },
 		{ import = "plugins.extras" },
+		{ import = "plugins.ai" },
 	},
 	checker = { enabled = true, notify = false },
 	change_detection = {

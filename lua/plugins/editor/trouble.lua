@@ -9,10 +9,15 @@ return {
 		},
 		{
 			"<leader>xX",
-			"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+			"<cmd>Trouble diagnostics toggle filter.buf=0 focus=true<cr>",
 			desc = "Buffer Diagnostics (Trouble)",
 		},
 		{ "<leader>cS", "<cmd>Trouble lsp toggle<cr>", desc = "LSP references/definitions/... (Trouble)" },
+		{
+			"<leader>xQ",
+			"<cmd>Trouble qflist toggle<cr>",
+			desc = "Quickfix List (Trouble)",
+		},
 		{
 			"<leader>xQ",
 			"<cmd>Trouble qflist toggle<cr>",

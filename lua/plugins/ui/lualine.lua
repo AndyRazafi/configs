@@ -6,8 +6,8 @@ return {
 		local colors = {
 			bg = "#34343b",
 			fg = "#7b7b7b",
-			white = "#EFEFEF",
-			mbg = "#3D255E",
+			white = "#efefef",
+			mbg = "#3d255e",
 			yellow = "#ff6300",
 			cyan = "#477bde",
 			darkblue = "#081633",
@@ -46,13 +46,69 @@ return {
 			hide_filetype = function()
 				return vim.o.columns > 120
 			end,
+			hide_branch = function()
+				return vim.o.columns > 140
+			end,
 		}
 
-		local color_cond = function()
+		local filetype = function()
+			local ft = vim.bo.filetype
+			local prefix = "󰅩 "
+			if ft == "neo-tree" then
+				return ""
+			end
+			if ft == "typescript" then
+				return prefix .. "ts"
+			end
+			if ft == "javascript" then
+				return prefix .. "js"
+			end
+			if ft == "typescriptreact" then
+				return prefix .. "tsx"
+			end
+			if ft == "javascriptreact" then
+				return prefix .. "jsx"
+			end
+			if ft ~= "" then
+				return prefix .. vim.bo.filetype
+			end
+			return ""
+		end
+
+		local copilot = function()
+			local clients = vim.lsp.get_clients()
+			if next(clients) == nil then
+				return ""
+			end
+			for _, client in ipairs(clients) do
+				if client.name == "GitHub Copilot" then
+					return " "
+				end
+			end
+			return ""
+		end
+
+		local lsp = function()
+			local clients = vim.lsp.get_clients()
+			if next(clients) == nil then
+				return ""
+			end
+			if #clients > 1 then
+				for _, _ in ipairs(clients) do
+					return "󰄭 " .. "+" .. #clients
+				end
+			else
+				for _, client in ipairs(clients) do
+					return "󰄭 " .. client.name
+				end
+			end
+		end
+
+		local modified_color_cond = function()
 			local buf = vim.api.nvim_get_current_buf()
 			local modified = vim.bo[buf].modified
 			if modified then
-				return { fg = colors.red, gui = "bold,italic" }
+				return { fg = colors.red, gui = "italic" }
 			end
 			return { fb = colors.fg }
 		end
@@ -60,9 +116,9 @@ return {
 		local config = {
 			options = {
 				refresh = {
-					statusline = 500,
+					statusline = 50,
 				},
-                globalstatus = true,
+				globalstatus = true,
 				component_separators = "",
 				section_separators = "",
 				theme = "auto",
@@ -75,14 +131,15 @@ return {
 						"mode",
 						color = { fg = colors.white, gui = "bold" },
 					},
-					-- {
-					-- 	"branch",
-					-- 	icon = "",
-					-- 	color = { fg = colors.magenta },
-					-- },
+					{
+						"branch",
+						icon = { "" },
+						color = { fg = colors.blue, gui = "italic" },
+						cond = conditions.hide_branch,
+					},
 					{
 						"diagnostics",
-						sources = { "nvim_diagnostic" },
+						sources = { "nvim_lsp" },
 						symbols = { error = "󰅚 ", warn = " ", info = " ", hint = "󰛩 " },
 						colored = true,
 					},
@@ -90,11 +147,12 @@ return {
 						"filetype",
 						icon_only = true,
 						colored = false,
-						color = color_cond,
+						color = modified_color_cond,
 						padding = { left = 1, right = 0 },
 					},
 					{
 						"filename",
+						path = 1,
 						symbols = {
 							modified = "",
 							readonly = "[readonly]",
@@ -102,17 +160,11 @@ return {
 							newfile = "[New]",
 						},
 						cond = conditions.buffer_not_empty,
-						color = color_cond,
+						color = modified_color_cond,
 						fmt = function(str)
 							local ft = vim.bo.filetype
 							if ft == "neo-tree" then
 								return "neo-tree"
-							end
-
-							local buf = vim.api.nvim_get_current_buf()
-							local modified = vim.bo[buf].modified
-							if modified then
-								return "*" .. str:gsub("^%s*(.-)%s*$", "%1") .. "*"
 							end
 							return str
 						end,
@@ -133,34 +185,20 @@ return {
 						cond = conditions.hide_diff,
 					},
 					{
-						function()
-							local ft = vim.bo.filetype
-							if ft == "neo-tree" then
-								return ""
-							end
-							if ft ~= "" then
-								return "󰅩 " .. vim.bo.filetype
-							end
-							return ""
-						end,
+						filetype,
 						cond = conditions.hide_filetype,
 						color = { fg = colors.fg },
 					},
 					{
-						function()
-							local msg = "No LSP"
-							local clients = vim.lsp.get_clients()
-							if next(clients) == nil then
-								return msg
-							end
-							for _, client in ipairs(clients) do
-								if client.name ~= "null-ls" and client.name ~= "copilot" then
-									return "󰄭 " .. client.name
-								end
-							end
-							return msg
-						end,
+						lsp,
 						color = { fg = colors.lsp },
+						on_click = function()
+							vim.cmd("LspInfo")
+						end,
+					},
+					{
+						copilot,
+						color = { fg = colors.fg },
 					},
 					{
 						"progress",

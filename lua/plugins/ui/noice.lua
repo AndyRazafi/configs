@@ -2,7 +2,7 @@ return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
 	dependencies = {
-		"MunifTanjim/nui.nvim",
+		"nui.nvim",
 		"nvim-notify",
 	},
 	opts = {
@@ -15,7 +15,7 @@ return {
 			enabled = true, -- enables the Noice messages UI
 			view = "mini", -- default view for messages
 			view_error = "notify", -- view for errors
-			view_warn = "mini", -- view for warnings
+			view_warn = "notify", -- view for warnings
 			view_history = "messages", -- view for :messages
 			view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
 		},
@@ -39,6 +39,14 @@ return {
 				throttle = 1000 / 30, -- frequency to update lsp progress message
 				view = "mini",
 			},
+			override = {
+				-- override the default lsp markdown formatter with Noice
+				["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+				-- override the lsp markdown formatter with Noice
+				["vim.lsp.util.stylize_markdown"] = true,
+				-- override cmp documentation with Noice (needs the other options to work)
+				["cmp.entry.get_documentation"] = false,
+			},
 			hover = {
 				enabled = true,
 				silent = false, -- set to true to not show a message if hover is not available
@@ -46,7 +54,7 @@ return {
 				opts = {}, -- merged with defaults from documentation
 			},
 			signature = {
-				enabled = true,
+				enabled = false,
 				auto_open = {
 					enabled = true,
 					trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
@@ -59,7 +67,7 @@ return {
 			message = {
 				-- Messages shown by lsp servers
 				enabled = true,
-				view = "notify",
+				view = "mini",
 				opts = {},
 			},
 			-- defaults for hover and signature help
@@ -70,8 +78,26 @@ return {
 					replace = true,
 					render = "plain",
 					format = { "{message}" },
-					win_options = { concealcursor = "n", conceallevel = 3 },
+					win_options = {
+						concealcursor = "n",
+						conceallevel = 3,
+						winhighlight = "FloatBorder:TelescopeBorder",
+					},
 				},
+			},
+		},
+		markdown = {
+			hover = {
+				["|(%S-)|"] = vim.cmd.help, -- vim help links
+				["%[.-%]%((%S-)%)"] = require("noice.util").open, -- markdown links
+			},
+			highlights = {
+				["|%S-|"] = "@text.reference",
+				["@%S+"] = "@parameter",
+				["^%s*(Parameters:)"] = "@text.title",
+				["^%s*(Return:)"] = "@text.title",
+				["^%s*(See also:)"] = "@text.title",
+				["{%S-}"] = "@parameter",
 			},
 		},
 		health = {
@@ -84,7 +110,7 @@ return {
 			command_palette = false, -- position the cmdline and popupmenu together
 			long_message_to_split = false, -- long messages will be sent to a split
 			inc_rename = false, -- enables an input dialog for inc-rename.nvim
-			lsp_doc_border = false, -- add a border to hover docs and signature help
+			lsp_doc_border = true, -- add a border to hover docs and signature help
 		},
 		throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
 	},

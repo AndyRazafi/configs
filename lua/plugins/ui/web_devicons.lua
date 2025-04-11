@@ -3,16 +3,22 @@ return {
 	opts = {
 		override = {
 			ts = {
-				icon = "",
+				icon = "",
 				color = "#519aba",
 				cterm_color = "65",
 				name = "Typescript",
 			},
 			js = {
-				icon = "",
+				icon = "",
 				color = "#cbcb41",
 				cterm_color = "65",
 				name = "Javascript",
+			},
+			css = {
+				icon = "",
+				color = "#eeffff",
+				cterm_color = "65",
+				name = "Css",
 			},
 		},
 	},

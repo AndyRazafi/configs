@@ -13,7 +13,7 @@ keymap.set({ "n", "v" }, "<S-down>", "<Nop>")
 -- Disable s key behavior
 keymap.set("n", "s", "<Nop>")
 
--- Command mode by hitting ;
+-- Command mode by hitting ";"
 keymap.set({ "n", "v" }, ";", ":", { nowait = true })
 
 -- Window management
@@ -22,9 +22,12 @@ keymap.set("n", "<leader>wW", "<C-w>W", { desc = "Move to previous window" })
 keymap.set("n", "<leader>wc", "<C-w>c", { desc = "Close window" })
 keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Split window verticaly" })
 keymap.set("n", "<leader>ws", "<C-w>s", { desc = "Split window horizontally" })
+keymap.set("n", "<leader>wo", ":only<CR>", { desc = "Close other windows" })
+keymap.set("n", "<leader>wm", "<C-w>|<CR>", { desc = "Max out window" })
+keymap.set("n", "<leader>w=", "<C-w>=<CR>", { desc = "Equally windows width and height" })
 
 -- Buffers
--- keymap.set("n", "<leader>bd", ":bdelete!<CR>", { desc = "Delete buffer" })
+keymap.set("n", "<leader>bn", ":enew<CR>", { desc = "New buffer" })
 
 -- Clear highlights
 keymap.set("n", "<Esc>", ":noh<CR>")
@@ -47,4 +50,9 @@ keymap.set("n", "x", '"_x')
 keymap.set("n", "<leader>qq", ":qa<CR>", { desc = "Quit Nvim" })
 
 -- Terminal
-keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Terminal normal mode" })
+keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Terminal normal mode" })
+
+-- Wezterm
+keymap.set("n", "<leader>wP", function()
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>[999~", true, false, true), "n", false)
+end, { noremap = true, silent = true, desc = "WezTerm PaneSelect" })

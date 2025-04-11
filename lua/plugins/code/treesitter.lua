@@ -1,7 +1,7 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	name = "treesitter",
-	event = { "BufReadPost", "BufWritePost", "BufNewFile", "VeryLazy" },
+	event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 	build = ":TSUpdate",
 	opts = {
 		highlight = { enable = true },
@@ -9,6 +9,8 @@ return {
 			"lua",
 			"javascript",
 			"typescript",
+			"html",
+			"css",
 		},
 		indent = { enable = true },
 	},

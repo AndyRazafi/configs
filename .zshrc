@@ -1,3 +1,4 @@
+export STARSHIP_CONFIG=~/starship.toml
 eval "$(starship init zsh)"
 
 setopt auto_cd
@@ -7,7 +8,7 @@ alias _W="cd /Volumes/Workspace"
 alias _P="cd /Volumes/Workspace/projects"
 alias _dot="cd /Volumes/Workspace/dotfiles"
 alias _conf="cd /Volumes/Workspace/configs"
-alias _jsc="cd /Volumes/Workspace/projects/java_but_script"
+alias _js="cd /Volumes/Workspace/projects/js"
 alias gg="git status"
 alias _fp='fzf --preview="bat --color=always {}"'
 
@@ -60,3 +61,10 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# bun completions
+[ -s "/Users/andy/.bun/_bun" ] && source "/Users/andy/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

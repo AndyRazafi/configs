@@ -1,0 +1,18 @@
+format = """
+ $directory\
+$git_branch\
+$git_state\
+$lua\
+$nodejs
+ $character
+"""
+
+[character]
+success_symbol="🔥"
+error_symbol="🔥"
+
+[git_branch]
+symbol=" "
+
+[lua]
+symbol="Lua "

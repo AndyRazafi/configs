@@ -6,12 +6,12 @@ return {
 		spec = {
 			{
 				mode = { "n", "v" },
-				{ "<leader>q", group = "close" },
+				{ "<leader>q", group = "close", icon = "󰩈" },
 				{ "<leader>b", group = "buffer" },
-				{ "<leader>s", group = "search" },
 				{ "<leader>g", group = "git" },
-				{ "<leader>gs", group = "surround" },
 				{ "<leader>x", group = "quickfix/fix" },
+				{ "<leader>u", group = "UI" },
+				{ "<leader>c", group = "code", icon = " " },
 				{
 					"<leader>w",
 					group = "windows",
@@ -19,6 +19,11 @@ return {
 						return require("which-key.extras").expand.win()
 					end,
 				},
+				{ "gs", group = "surround", icon = "󰘦" },
+				{ "gsa", icon = { icon = "", color = "green" } },
+				{ "gsd", icon = { icon = "", color = "red" } },
+				{ "gsc", icon = "" },
+				{ "gss", icon = "󰗈" },
 			},
 		},
 	},

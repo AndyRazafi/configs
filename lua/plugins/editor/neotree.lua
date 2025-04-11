@@ -1,6 +1,7 @@
 return {
 	"nvim-neo-tree/neo-tree.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	lazy = true,
 	opts = {
 		hide_root_node = false,
 		retain_hidden_root_indent = false,
@@ -8,7 +9,6 @@ return {
 			container = {
 				enable_character_fade = true,
 				width = "100%",
-				-- max_width = 50,
 				right_padding = 0,
 			},
 			indent = {
@@ -25,7 +25,7 @@ return {
 					modified = "M",
 					untracked = "?",
 					unstaged = "",
-					staged = "",
+					staged = "",
 					conflict = "x",
 				},
 			},
@@ -42,19 +42,20 @@ return {
 		window = {
 			position = "float",
 			popup = {
-				size = { height = "40", width = "75" },
+				size = { height = "35", width = "60" },
 				position = "50%",
 				border = {
-					style = "single",
+					style = "rounded",
 					text = {
-						top = " Neotree ",
+						top = " 󰫻󰫲󰫼󰬃󰫶󰫺 ",
 					},
+					highlight = "Normal:NeoTreeFloatNormal,FloatBorder:NeoTreeFloatBorder",
 				},
 				win_options = {
-					winhighlight = "Normal:Normal,FloatBorder:NormalFLoat",
+					winblend = 0,
+					winhighlight = "NormalNC:NeoTreeFloatNormal,FloatBorder:NeoTreeFloatBorder",
 				},
 			},
-			width = 35,
 			mappings = {
 				["<tab>"] = "open",
 				["o"] = "open_with_window_picker",
@@ -62,12 +63,16 @@ return {
 				["v"] = "open_vsplit",
 				["w"] = "none",
 				["q"] = "close_window",
+				["M"] = "move",
 				["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = false } },
 			},
 		},
 		filesystem = {
 			window = {
 				position = "float",
+				win_options = {
+					winblend = 0,
+				},
 			},
 			filtered_items = {
 				visible = false,
@@ -77,6 +82,7 @@ return {
 					".gitignore",
 					".zshrc",
 					".wezterm.lua",
+					".next",
 				},
 				always_show_by_pattern = {
 					".env*",
@@ -93,7 +99,7 @@ return {
 		},
 	},
 	keys = {
-		{ "<leader>e", "<cmd> Neotree toggle <CR>", desc = "Toggle NeoTree" },
-		{ "<leader>0", "<cmd> Neotree action=focus <CR>", desc = "NeoTree focus" },
+		{ "<leader>e", ":Neotree toggle <CR>", desc = "Toggle NeoTree" },
+		{ "<leader>0", ":Neotree action=focus <CR>", desc = "NeoTree focus" },
 	},
 }

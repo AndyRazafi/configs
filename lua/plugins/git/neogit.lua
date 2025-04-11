@@ -3,7 +3,6 @@ return {
 	dependencies = {
 		"plenary.nvim", -- required
 		"diffview.nvim", -- optional
-		"telescope.nvim", -- optional
 	},
 	config = true,
 	keys = {
@@ -16,12 +15,12 @@ return {
 		},
 		{
 			"<leader>gd",
-			"<cmd> DiffviewOpen <cr>",
+			":DiffviewOpen <CR>",
 			desc = "Open diffview",
 		},
 		{
 			"<leader>gD",
-			"<cmd> DiffviewClose <cr>",
+			":DiffviewClose <CR>",
 			desc = "Close diffview",
 		},
 	},
