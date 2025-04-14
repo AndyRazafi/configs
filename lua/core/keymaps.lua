@@ -19,6 +19,8 @@ keymap.set({ "n", "v" }, ";", ":", { nowait = true })
 -- Window management
 keymap.set("n", "<leader>ww", "<C-w><C-w>", { desc = "Move to next window" })
 keymap.set("n", "<leader>wW", "<C-w>W", { desc = "Move to previous window" })
+keymap.set("n", "<S-right>", "<C-w><C-w>", { desc = "Move to next window" })
+keymap.set("n", "<S-left>", "<C-w>W", { desc = "Move to previous window" })
 keymap.set("n", "<leader>wc", "<C-w>c", { desc = "Close window" })
 keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Split window verticaly" })
 keymap.set("n", "<leader>ws", "<C-w>s", { desc = "Split window horizontally" })
@@ -51,8 +53,3 @@ keymap.set("n", "<leader>qq", ":qa<CR>", { desc = "Quit Nvim" })
 
 -- Terminal
 keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Terminal normal mode" })
-
--- Wezterm
-keymap.set("n", "<leader>wP", function()
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>[999~", true, false, true), "n", false)
-end, { noremap = true, silent = true, desc = "WezTerm PaneSelect" })
