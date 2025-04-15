@@ -26,6 +26,61 @@ local function get_window_below()
 	return target_win
 end
 
+local function get_window_above()
+	local current_win = vim.api.nvim_get_current_win()
+	local current_pos = vim.api.nvim_win_get_position(current_win)
+	local current_row = current_pos[1]
+	local current_col = current_pos[2]
+
+	local target_win = nil
+	local closest_distance = math.huge
+
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if win ~= current_win then
+			local cfg = vim.api.nvim_win_get_config(win)
+			if cfg.relative == "" then -- not a floating window
+				local pos = vim.api.nvim_win_get_position(win)
+				local row = pos[1]
+				local col = pos[2]
+
+				if col == current_col and row < current_row then
+					local distance = current_row - row
+					if distance < closest_distance then
+						closest_distance = distance
+						target_win = win
+					end
+				end
+			end
+		end
+	end
+
+	return target_win
+end
+
+local function has_window_above()
+	local current_win = vim.api.nvim_get_current_win()
+	local current_pos = vim.api.nvim_win_get_position(current_win)
+	local current_row = current_pos[1]
+	local current_col = current_pos[2]
+
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if win ~= current_win then
+			local cfg = vim.api.nvim_win_get_config(win)
+			if cfg.relative == "" then -- not a floating window
+				local pos = vim.api.nvim_win_get_position(win)
+				local row = pos[1]
+				local col = pos[2]
+
+				if col == current_col and row < current_row then
+					return true
+				end
+			end
+		end
+	end
+
+	return false
+end
+
 local function has_window_below()
 	local curr_win = vim.api.nvim_get_current_win()
 	local curr_cfg = vim.api.nvim_win_get_config(curr_win)
@@ -101,6 +156,21 @@ return {
 			desc = "Wezterm split pane horizontal",
 		},
 		{
+			"<S-up>",
+			function()
+				local wezterm = require("wezterm")
+				if has_window_above() then
+					local target_win = get_window_above()
+					if target_win then
+						vim.api.nvim_set_current_win(target_win)
+					end
+				else
+					wezterm.switch_pane.direction("Up", wezterm.get_current_pane())
+				end
+			end,
+			desc = "Wezterm switch pane up",
+		},
+		{
 			"<S-down>",
 			function()
 				local wezterm = require("wezterm")
@@ -113,7 +183,7 @@ return {
 					wezterm.switch_pane.direction("Down", wezterm.get_current_pane())
 				end
 			end,
-			desc = "Wezterm split pane horizontal",
+			desc = "Wezterm switch pane down",
 		},
 	},
 }
